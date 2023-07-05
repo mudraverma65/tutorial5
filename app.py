@@ -1,4 +1,4 @@
-from flask import Flask, jsonify
+from flask import Flask, jsonify, request
 
 app = Flask(__name__)
 
@@ -22,6 +22,40 @@ def getMethod():
         "message": "Users retrieved",
         "success": True,
         "users": [user.__dict__ for user in listOfUsers]
+    }
+    return jsonify(response)
+
+@app.route('/update/<string:user_id>', methods=['PUT'])
+def updateMethod(user_id):
+    data = request.get_json()
+    for user in listOfUsers:
+        if user.id == user_id:
+            if 'email' in data:
+                user.email = data['email']
+            if 'firstName' in data:
+                user.firstName = data['firstName']
+            response = {
+                "message": "User updated",
+                "success": True
+            }
+            return jsonify(response)
+    response = {
+        "message": "User not found",
+        "success": False
+    }
+    return jsonify(response)
+
+@app.route('/add', methods=['POST'])
+def addMethod():
+    data = request.get_json()
+    email = data.get('email')
+    firstName = data.get('firstName')
+    user_id = str(len(listOfUsers) + 1)
+    new_user = User(email, firstName, user_id)
+    listOfUsers.append(new_user)
+    response = {
+        "message": "User added",
+        "success": True
     }
     return jsonify(response)
 
