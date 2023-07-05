@@ -50,6 +50,14 @@ def addMethod():
     data = request.get_json()
     email = data.get('email')
     firstName = data.get('firstName')
+
+    if not email or not firstName:
+        response = {
+            "message": "Email and firstName are required fields",
+            "success": False
+        }
+        return jsonify(response), 400
+
     user_id = str(len(listOfUsers) + 1)
     new_user = User(email, firstName, user_id)
     listOfUsers.append(new_user)
