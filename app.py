@@ -90,6 +90,14 @@ def bad_request(error):
     }
     return jsonify(response), 400
 
+@app.errorhandler(404)
+def not_found(error):
+    response = {
+        "message": "Not Found",
+        "success": False
+    }
+    return jsonify(response), 404
+
 @app.errorhandler(500)
 def server_error(error):
     response = {
