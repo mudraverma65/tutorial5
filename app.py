@@ -101,10 +101,10 @@ def not_found(error):
 @app.errorhandler(405)
 def server_error(error):
     response = {
-        "message": "Incorrect Method Request",
+        "message": "Method not allowed",
         "success": False
     }
-    return jsonify(response), 500
+    return jsonify(response), 405
 
 @app.errorhandler(500)
 def server_error(error):
