@@ -98,6 +98,14 @@ def not_found(error):
     }
     return jsonify(response), 404
 
+@app.errorhandler(405)
+def server_error(error):
+    response = {
+        "message": "Incorrect Method Request",
+        "success": False
+    }
+    return jsonify(response), 500
+
 @app.errorhandler(500)
 def server_error(error):
     response = {
